@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
@@ -24,12 +23,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean("titleVisibleKey", titleTextView.isVisible)
+        outState.putInt(KEY, titleTextView.visibility)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        titleTextView.visibility =
-            if (savedInstanceState.getBoolean("titleVisibleKey")) View.VISIBLE else View.GONE
+        titleTextView.visibility = savedInstanceState.getInt(KEY)
+    }
+
+    companion object {
+        private const val KEY = "textVisibility"
     }
 }
