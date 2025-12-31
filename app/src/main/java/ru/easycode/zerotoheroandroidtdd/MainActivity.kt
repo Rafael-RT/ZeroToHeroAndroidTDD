@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    private var count = 0
-    private lateinit var textView : TextView
+    private val count: Count = Count.Base(step = 2)
+    private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,23 +16,7 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.incrementButton)
 
         button.setOnClickListener {
-            count += 2
-            textView.text = count.toString()
+            textView.text = count.increment(textView.text.toString())
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY, count)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        count = savedInstanceState.getInt(KEY)
-        textView.text = count.toString()
-    }
-
-    companion object {
-        private const val KEY = "key"
     }
 }
