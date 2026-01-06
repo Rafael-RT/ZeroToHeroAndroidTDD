@@ -17,26 +17,24 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.countTextView)
         button = findViewById(R.id.incrementButton)
 
-        uiState.apply(textView)
-
         button.setOnClickListener {
             uiState = count.increment(textView.text.toString())
-            uiState.apply(textView)
-            button.isEnabled = uiState !is UiState.Max
+            uiState.apply(textView, button)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY_ENABLED, button.isEnabled)
+        outState.putSerializable(KEY, uiState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        button.isEnabled = savedInstanceState.getBoolean(KEY_ENABLED)
+        uiState = savedInstanceState.getSerializable(KEY) as UiState
+        uiState.apply(textView, button)
     }
 
     companion object {
-        private const val KEY_ENABLED = "KEY_ENABLED"
+        private const val KEY = "KEY"
     }
 }
